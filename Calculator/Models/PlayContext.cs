@@ -16,11 +16,12 @@ namespace Calculator.Models
         {
             if (File.Exists(dbFile))
             {
+                try{
                 //load data
                 using (FileStream stm =
                         new FileStream(dbFile, FileMode.Open))
                 {
-                    using (GZipStream gstm = new GZipStream(stm, CompressionMode.Compress))
+                    using (GZipStream gstm = new GZipStream(stm, CompressionMode.Decompress))
                     {
                         using (StreamReader sr = new StreamReader(gstm))
                         {
@@ -29,11 +30,15 @@ namespace Calculator.Models
                         }
                     }
                 }
+                }
+                catch{
+                    PlayRecords = new List<PlayRecord>();
+                }
             }
-
-
-            PlayRecords = new List<PlayRecord>();
-
+            else
+            {
+                PlayRecords = new List<PlayRecord>();
+            }
             
         }
 

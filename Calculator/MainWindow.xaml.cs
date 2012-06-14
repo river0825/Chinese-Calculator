@@ -23,7 +23,7 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        const int questToAns = 2; //要答 25 題
+        const int questToAns = 20; //要答 25 題
 
         int questLevel = 4;
         IList<Calculator.CalcItem> calcItems = new List<CalcItem>();
@@ -36,6 +36,7 @@ namespace Calculator
         private int skipCount;
         DateTime beginTime = DateTime.Now;
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        PlayContext dbContext = new PlayContext();
 
         public MainWindow()
         {
@@ -151,7 +152,7 @@ namespace Calculator
                 LevelId = 4,
                 Caption = "Level 4 2位數加1位數加淢法",
                 MaxResult = 100,
-                NumberCount = 2,
+                NumberCount = 6,
                 NextNumber = delegate(int currResult)
                 {
                     int maxResult = 100,
@@ -159,13 +160,13 @@ namespace Calculator
                         n;
                     if (currResult == 0)
                     {
-                        n = rnd.Next(maxResult);
+                        n = rnd.Next(maxResult - 10) + 10;
                         sign = 1;
                     }
                     else
                     {
                         sign = rnd.Next(2);
-                        n = rnd.Next(maxResult) % 10; 
+                        n = rnd.Next(maxResult) % 9 + 1; 
                         sign = (sign == 1 ? 1 : -1);
                     }
                     return new CalcItem() { Number = n, Sign = sign };
@@ -191,11 +192,11 @@ namespace Calculator
             msg += string.Format("現在答錯 {0} 題", failCount)+Environment.NewLine;
             msg += string.Format("現在跳過 {0} 題", skipCount) + Environment.NewLine;
 
-            var db = new PlayContext();
-            var playCount = db.PlayRecords.Count();
+            
+            var playCount = dbContext.PlayRecords.Count();
             if (playCount != 0)
             {
-                var play = db.PlayRecords.OrderByDescending(m => m.PlayRecordId).First();
+                var play = dbContext.PlayRecords.OrderByDescending(m => m.PlayRecordId).First();
                 //var duration = (play.BeginTime - play.EndTime).ToString("mm:ss");
                 msg += string.Format("這是你第 {0} 次玩囉", playCount + 1) + Environment.NewLine;
                 msg += string.Format("上次你花了  {0:mm}分 {0:ss}秒", (play.BeginTime - play.EndTime)) + Environment.NewLine;
@@ -252,8 +253,8 @@ namespace Calculator
 
         private void SaveRecord()
         {
-            var db = new PlayContext();
-            db.PlayRecords.Add(new PlayRecord()
+            //var db = new PlayContext();
+            dbContext.PlayRecords.Add(new PlayRecord()
             {
                 BeginTime = beginTime,
                 EndTime = DateTime.Now,
@@ -261,7 +262,7 @@ namespace Calculator
                 FailCount = failCount,
                 SkipCount = skipCount
             });
-            db.Save();
+            dbContext.Save();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
