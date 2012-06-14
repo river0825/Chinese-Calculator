@@ -17,3 +17,21 @@ C:\Users\River\Documents\Visual Studio 2010\Projects\Calculator\Calculator\bin\D
 C:\Users\River\Documents\Visual Studio 2010\Projects\Calculator\Calculator\bin\Debug\Calculator.application
 C:\Users\River\Documents\Visual Studio 2010\Projects\Calculator\Calculator\obj\x86\Debug\Calculator.exe.manifest
 C:\Users\River\Documents\Visual Studio 2010\Projects\Calculator\Calculator\obj\x86\Debug\Calculator.application
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\Calculator.exe
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\Calculator.pdb
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\Calculator.csprojResolveAssemblyReference.cache
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\MainWindow.baml
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\MainWindow.g.cs
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\App.g.cs
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\Calculator_MarkupCompile.cache
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\Calculator.g.resources
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\Calculator.Properties.Resources.resources
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\Calculator.csproj.GenerateResource.Cache
+D:\Projects\Chinese-Caculator\Calculator\bin\Debug\Calculator.exe.manifest
+D:\Projects\Chinese-Caculator\Calculator\bin\Debug\Calculator.application
+D:\Projects\Chinese-Caculator\Calculator\bin\Debug\Calculator.exe
+D:\Projects\Chinese-Caculator\Calculator\bin\Debug\Calculator.pdb
+D:\Projects\Chinese-Caculator\Calculator\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\Chinese-Caculator\Calculator\bin\Debug\Newtonsoft.Json.xml
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\Calculator.exe.manifest
+D:\Projects\Chinese-Caculator\Calculator\obj\x86\Debug\Calculator.application

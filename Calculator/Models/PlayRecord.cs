@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Calculator.Models
 {
+    [Serializable]
     public class PlayRecord
     {
         public int PlayRecordId { get; set; }

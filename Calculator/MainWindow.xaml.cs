@@ -23,8 +23,9 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        const int questToAns = 25; //要答 25 題
+        const int questToAns = 2; //要答 25 題
 
+        int questLevel = 4;
         IList<Calculator.CalcItem> calcItems = new List<CalcItem>();
         IDictionary<int, Level> levels = new Dictionary<int, Level>();
         int maxResult = 9;
@@ -48,20 +49,14 @@ namespace Calculator
 
             InitLevels();
 
-            MakeQuestion(numCount, maxResult);
+            //MakeQuestion(numCount, maxResult);
+            MakeQuestion(4); //level 4
+
             Display();
         }
 
         void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            //Process[] process = Process.GetProcesses();
-            //foreach (var p in process)
-            //{
-            //    if (p.ProcessName == "chrome")
-            //    {
-            //        p.Kill();
-            //    }
-            //}
             if (WindowState == WindowState.Minimized)
             {
                 MessageBox.Show(string.Format("已經過了{0}分鐘囉，該休息一下了!!", minutesToShow));
@@ -150,6 +145,32 @@ namespace Calculator
                     return new CalcItem() { Number = n, Sign = sign };
                 }
             });
+
+            levels.Add(4, new Level()
+            {
+                LevelId = 4,
+                Caption = "Level 4 2位數加1位數加淢法",
+                MaxResult = 100,
+                NumberCount = 2,
+                NextNumber = delegate(int currResult)
+                {
+                    int maxResult = 100,
+                        sign,
+                        n;
+                    if (currResult == 0)
+                    {
+                        n = rnd.Next(maxResult);
+                        sign = 1;
+                    }
+                    else
+                    {
+                        sign = rnd.Next(2);
+                        n = rnd.Next(maxResult) % 10; 
+                        sign = (sign == 1 ? 1 : -1);
+                    }
+                    return new CalcItem() { Number = n, Sign = sign };
+                }
+            });
         }
 
         private void Display()
@@ -203,7 +224,7 @@ namespace Calculator
             if (int.TryParse(textBox1.Text, out r) && (result == Convert.ToInt16(textBox1.Text)))
             {
                 label2.Content = "答對了~~";
-                MakeQuestion(numCount, maxResult);
+                MakeQuestion(questLevel);
                 okCount++;
                 Display();
             }
@@ -240,7 +261,7 @@ namespace Calculator
                 FailCount = failCount,
                 SkipCount = skipCount
             });
-            db.SaveChanges();
+            db.Save();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -248,38 +269,53 @@ namespace Calculator
             CheckResult();
         }
 
-        private void MakeQuestion(int itemsToMake, int max)
+        private void MakeQuestion(int levelId)
         {
-            IList<CalcItem> items = new List<CalcItem>();
-            Random rnd = new Random();
-
-            int result = 0;
-            int sign = 1;
-            int number = 0;
-
-            for(var i = 0; i<itemsToMake; i++){
-                number = rnd.Next(max - 1) + 1;
-                sign = (i ==0)? 1 : (rnd.Next(2) == 1) ? 1: -1;
-
-                while (((result + number*sign) > max) ||  ((result + number*sign) < 0))
-                {
-                    number = rnd.Next(max - 1) + 1;
-                    sign = (rnd.Next(2) == 1) ? 1 : -1;
-                }
-
-                result += number * sign;
-
-                items.Add(new CalcItem() { Number = number, Sign = sign });
-            }
-
+            var level = levels[levelId];
+            var itemsToMake = level.NumberCount;
+            var result = 0;
             calcItems.Clear();
-            calcItems = items;
+
+            for (var i = 0; i < itemsToMake; i++)
+            {
+                var item = level.NextNumber(result);
+                calcItems.Add(item);
+                result += item.Value;
+            }
         }
+
+        //private void MakeQuestion(int itemsToMake, int max)
+        //{
+        //    IList<CalcItem> items = new List<CalcItem>();
+        //    Random rnd = new Random();
+
+        //    int result = 0;
+        //    int sign = 1;
+        //    int number = 0;
+
+        //    for(var i = 0; i<itemsToMake; i++){
+        //        number = rnd.Next(max - 1) + 1;
+        //        sign = (i ==0)? 1 : (rnd.Next(2) == 1) ? 1: -1;
+
+        //        while (((result + number*sign) > max) ||  ((result + number*sign) < 0))
+        //        {
+        //            number = rnd.Next(max - 1) + 1;
+        //            sign = (rnd.Next(2) == 1) ? 1 : -1;
+        //        }
+
+        //        result += number * sign;
+
+        //        items.Add(new CalcItem() { Number = number, Sign = sign });
+        //    }
+
+        //    calcItems.Clear();
+        //    calcItems = items;
+        //}
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
             skipCount++;
-            MakeQuestion(numCount, maxResult);
+            MakeQuestion(questLevel);
             Display();            
         }
 
